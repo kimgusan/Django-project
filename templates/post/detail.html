@@ -1,0 +1,91 @@
+{% extends 'post/base.html' %}
+{% load static %}
+
+{% block title %}상세보기{% endblock %}
+
+{% block content %}
+    <main id="post">
+        <section id="post-banner">
+            <div><a href="{% url 'post:write' %}"><img src="{% static 'public/images/post_banner.png' %}"></a></div>
+        </section>
+        <section id="info-wrap">
+            <article id="info-container">
+                <h6 class="info">게시글 상세보기</h6>
+                <section class="order">
+                    <a href="/post/list">목록으로</a>
+                    {% if request.session.member.id == post.member.id %}
+                        <a href="/post/update/?id={{ post.id }}" class="update">수정</a>
+                        <a href="/post/delete/?id={{ post.id }}" class="delete">삭제</a>
+                    {% endif %}
+                </section>
+            </article>
+            <section id="detail-title">
+                <h2>{{ post.post_title }}</h2>
+            </section>
+            <section id="detail-info">
+                <div class="profile">
+                    {% if post.member.memberfile_set.all|length != 0 %}
+                        {% for file in post.member.memberfile_set.all %}
+                            <img src="/upload/{{ file.path }}" width="15px">
+                        {% endfor %}
+                    {% else %}
+                        <img src="{% static 'public/images/default-profile.png' %}" width="15px">
+                    {% endif %}
+                    <h6 class="writer">{{ post.member.member_name }}</h6>
+                </div>
+                <hr>
+                <h6 id="detail-read-count">조회 {{ post.post_read_count }}</h6>
+                <hr>
+            </section>
+
+            <h5 id="content">
+                {{ post.post_content }}
+            </h5>
+            <div>
+                {% for postfile in post.postfile_set.all %}
+                    <a href="">
+                        <img src="/upload/{{ postfile.path }}" width="100%" class="file-list">
+                    </a>
+                {% endfor %}
+            </div>
+            <section id="reply-write-wrap" style="display: block;">
+                <div class="profile">
+                    <div>
+                        {% if request.session.member_files %}
+                            {% for file in request.session.member_files %}
+                                <img src="/upload/{{ file.path }}" width="15px">
+                            {% endfor %}
+                        {% else %}
+                            <img src="{% static 'public/images/default-profile.png' %}" width="15px">
+                        {% endif %}
+                    </div>
+                    <h6 class="writer">{{ request.session.member.member_name }}</h6>
+                </div>
+                <textarea id="reply-content" cols="30" rows="1" placeholder="내 댓글"></textarea>
+                <button id="reply-write">작성완료</button>
+            </section>
+            <section id="replies-wrap">
+                <ul></ul>
+                <button type="button" id="more-replies">
+                	<div>더보기</div>
+                	<div><img src="{% static 'public/images/plus.png' %}" width="24"></div>
+                </button>
+            </section>
+        </section>
+    </main>
+{% endblock %}
+
+{% block js %}
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+

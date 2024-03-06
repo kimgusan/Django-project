@@ -1,0 +1,79 @@
+{% extends 'member/base.html' %}
+{% load static %}
+
+{% block static %}
+    <link rel="stylesheet" href="{% static 'member/css/mypage.css' %}">
+{% endblock %}
+{% block title %}마이페이지{% endblock %}
+{% block content %}
+    {% include 'member/header.html' %}
+    <main id="mypage">
+        <div class="modal">
+            <div class="warn-modal">
+                <div id="content-wrap"></div>
+            </div>
+        </div>
+        <form action="{% url 'member:mypage' %}" method="post" enctype="multipart/form-data" name="mypage">
+            {% csrf_token %}
+            <section id="mypage-container">
+                <div class="basic-info-container">
+                    <label>
+                        {% if request.session.member_files %}
+                            {% for file in request.session.member_files %}
+                                <img src="/upload/{{ file.path }}">
+                            {% endfor %}
+                        {% else %}
+                            <img src="{% static 'public/images/default-profile.png' %}">
+                        {% endif %}
+                        <input type="file" name="profile" style="display: none;">
+                    </label>
+                    <div class="cancel"></div>
+                </div>
+                <div class="info-container">
+                    <label>이름</label>
+                    <span>
+                        <input type="text" id="name" name="member-name" autocomplete="off" value="{{ request.session.member.member_name }}" placeholder="영문 혹은 한글, 2~20자">
+                        <img width="16px">
+                    </span>
+                    <p class="help"></p>
+                </div>
+                <div class="info-container">
+                    <label>비밀번호</label>
+                    <span>
+                        <div class="password">
+                            <input type="password" id="password" name="member-password" placeholder="영어, 숫자, 특수문자 중 2가지 이상 10~20자">
+                            <img width="16px">
+                            <p class="help"></p>
+                        </div>
+                        <div class="password password-check">
+                            <input type="password" id="password-check" placeholder="비밀번호 재입력">
+                            <img width="16px">
+                            <p class="help"></p>
+                        </div>
+                    </span>
+                </div>
+                <div class="info-container">
+                    <label>이메일</label>
+                    <span>
+                        <input type="text" id="email" autocomplete="off" value="{{ request.session.member.member_email }}" readonly>
+                    </span>
+                    <h6 class="help">
+                        <img src="{% static 'public/images/warn.png' %}" id="warn" width="16px" height="16px">
+                        이메일은 수정할 수 없습니다.
+                    </h6>
+                </div>
+                <button type="button" class="next">완료</button>
+            </section>
+        </form>
+    </main>
+{% endblock %}
+{% block js %}
+    <script>
+        "{{ request.session.member_files }}"
+        let check = "{{ check }}"
+        if (check === "false"){
+            check = "";
+        }
+    </script>
+    <script src="{% static 'member/js/mypage.js' %}"></script>
+{% endblock %}
