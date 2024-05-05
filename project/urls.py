@@ -12,6 +12,7 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),
     path('oauth/', include('oauth.urls')),
     path('post/', include('post.urls')),
+    path('replies/', include('reply.urls')),
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

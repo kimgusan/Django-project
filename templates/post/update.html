@@ -13,10 +13,14 @@
             <article id="info-container">
                 <h6 class="info">게시글 수정하기</h6>
                 <section class="order">
-                    <a href="/post/list">목록으로</a>
+                    <a href="/post/list?page={{ page }}&order={{ order }}&type={{ type }}&keyword={{ keyword }}">목록으로</a>
                 </section>
             </article>
             <form action="/post/update/?id={{ post.id }}" method="post" name="update" enctype="multipart/form-data">
+                <input type="hidden" name="order" value="{{ order }}">
+                <input type="hidden" name="page" value="{{ page }}">
+                <input type="hidden" name="type" value="{{ type }}">
+                <input type="hidden" name="keyword" value="{{ keyword }}">
                 {% csrf_token %}
                 <legend>
                     <h3>

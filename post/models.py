@@ -24,8 +24,8 @@ class Post(Period):
         db_table = 'tbl_post'
         ordering = ['-id']
 
-    def get_absolute_url(self):
-        return f'/post/detail/?id={self.id}'
+    def get_absolute_url(self, page, order, type, keyword):
+        return f'/post/detail/?id={self.id}&page={page}&order={order}&type={type}&keyword={keyword}'
 
     def change_date_format(self):
         now = datetime.datetime.now()

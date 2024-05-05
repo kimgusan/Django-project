@@ -6,16 +6,16 @@
 {% block content %}
     <main id="post">
         <section id="post-banner">
-            <div><a href="{% url 'post:write' %}"><img src="{% static 'public/images/post_banner.png' %}"></a></div>
+            <div><a href="/post/write?page={{ page }}&order={{ order }}&type={{ type }}&keyword={{ keyword }}"><img src="{% static 'public/images/post_banner.png' %}"></a></div>
         </section>
         <section id="info-wrap">
             <article id="info-container">
                 <h6 class="info">게시글 상세보기</h6>
                 <section class="order">
-                    <a href="/post/list">목록으로</a>
+                    <a href="/post/list?page={{ page }}&order={{ order }}&type={{ type }}&keyword={{ keyword }}">목록으로</a>
                     {% if request.session.member.id == post.member.id %}
-                        <a href="/post/update/?id={{ post.id }}" class="update">수정</a>
-                        <a href="/post/delete/?id={{ post.id }}" class="delete">삭제</a>
+                        <a href="/post/update/?id={{ post.id }}&page={{ page }}&order={{ order }}&type={{ type }}&keyword={{ keyword }}" class="update">수정</a>
+                        <a href="/post/delete/?id={{ post.id }}&page={{ page }}&order={{ order }}&type={{ type }}&keyword={{ keyword }}" class="delete">삭제</a>
                     {% endif %}
                 </section>
             </article>
@@ -76,6 +76,13 @@
 {% endblock %}
 
 {% block js %}
+    <script>
+        const csrf_token = '{{ csrf_token }}';
+        const post_id = '{{ post.id }}'
+        const memberId = '{{ request.session.member.id }}'
+    </script>
+    <script src="{% static 'reply/js/reply-module.js' %}/"></script>
+    <script src="{% static 'reply/js/reply.js' %}/"></script>
 {% endblock %}
 
 

@@ -6,14 +6,14 @@
 {% block content %}
     <main id="post">
         <section id="post-banner">
-            <div><a href="{% url 'post:write' %}"><img src="{% static 'public/images/post_banner.png' %}"></a></div>
+            <div><a href="/post/write?page={{ page }}&order={{ order }}&type={{ type }}&keyword={{ keyword }}"><img src="{% static 'public/images/post_banner.png' %}"></a></div>
         </section>
         <section id="info-wrap">
             <article id="info-container">
-                <h6 class="info">게시글 목록<br>{{ posts|length }}개</h6>
+                <h6 class="info">게시글 목록<br>{{ total }}개</h6>
                 <section class="order">
-                    <a href="/post/list">최신순</a>
-                    <a href="/post/list/?order=popular">인기순</a>
+                    <a href="/post/list?type={{ type }}&keyword={{ keyword }}">최신순</a>
+                    <a href="/post/list/?order=popular&type={{ type }}&keyword={{ keyword }}">인기순</a>
                 </section>
             </article>
             <section id="content-wrap">
@@ -21,7 +21,7 @@
                     {% for post in posts %}
                         <li>
                             <div>
-                                <a href="{{ post.get_absolute_url }}">
+                                <a href="/post/detail/?id={{ post.id }}&page={{ page }}&order={{ order }}&type={{ type }}&keyword={{ keyword }}">
                                     <section class="content-container">
                                         <div class="profile">
                                             <div>
@@ -55,9 +55,9 @@
                 <div id="paging-wrap">
                     {% if start_page > 1 %}
                         {% if order == 'popular' %}
-                            <a href="/post/list/?page={{ start_page|add:-1 }}&order=popular" class="paging paging-move"><img src="{% static 'public/images/prev.png' %}" width="15px"></a>
+                            <a href="/post/list/?page={{ start_page|add:-1 }}&order=popular&type={{ type }}&keyword={{ keyword }}" class="paging paging-move"><img src="{% static 'public/images/prev.png' %}" width="15px"></a>
                         {% else %}
-                            <a href="/post/list/?page={{ start_page|add:-1 }}" class="paging paging-move"><img src="{% static 'public/images/prev.png' %}" width="15px"></a>
+                            <a href="/post/list/?page={{ start_page|add:-1 }}&type={{ type }}&keyword={{ keyword }}" class="paging paging-move"><img src="{% static 'public/images/prev.png' %}" width="15px"></a>
                         {% endif %}
                         
                     {% endif %}
@@ -67,9 +67,9 @@
                                 <a href="javascript:void(0)" class="paging paging-checked">{{ forloop.counter0|add:start_page}}</a>
                             {% else %}
                                 {% if order == 'popular' %}
-                                    <a href="/post/list/?page={{ forloop.counter0|add:start_page }}&order=popular" class="paging">{{ forloop.counter0|add:start_page}}</a>
+                                    <a href="/post/list/?page={{ forloop.counter0|add:start_page }}&order=popular&type={{ type }}&keyword={{ keyword }}" class="paging">{{ forloop.counter0|add:start_page}}</a>
                                 {% else %}
-                                    <a href="/post/list/?page={{ forloop.counter0|add:start_page }}" class="paging">{{ forloop.counter0|add:start_page}}</a>
+                                    <a href="/post/list/?page={{ forloop.counter0|add:start_page }}&type={{ type }}&keyword={{ keyword }}" class="paging">{{ forloop.counter0|add:start_page}}</a>
                                 {% endif %}
                                 
                             {% endif %}
@@ -77,9 +77,9 @@
                     {% endfor %}
                     {% if end_page < real_end %}
                         {% if order == 'popular' %}
-                            <a href="/post/list/?page={{ end_page|add:1 }}&order=popular" class="paging paging-move"><img src="{% static 'public/images/next.png' %}" width="15px"></a>
+                            <a href="/post/list/?page={{ end_page|add:1 }}&order=popular&type={{ type }}&keyword={{ keyword }}" class="paging paging-move"><img src="{% static 'public/images/next.png' %}" width="15px"></a>
                         {% else %}
-                            <a href="/post/list/?page={{ end_page|add:1 }}" class="paging paging-move"><img src="{% static 'public/images/next.png' %}" width="15px"></a>
+                            <a href="/post/list/?page={{ end_page|add:1 }}&type={{ type }}&keyword={{ keyword }}" class="paging paging-move"><img src="{% static 'public/images/next.png' %}" width="15px"></a>
                         {% endif %}
                         
                     {% endif %}
